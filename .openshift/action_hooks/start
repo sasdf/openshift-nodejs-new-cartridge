@@ -21,7 +21,10 @@ if [ -f "$OPENSHIFT_REPO_DIR/NODE_VERSION" ]; then
     NODEVER=$(cat $OPENSHIFT_REPO_DIR/NODE_VERSION)
     if [ "$(node -v)" != "$NODEVER" ]; then
         cd "$BINPATH"
-        rm -rf "node-*-linux-x64*"
+        rm -rf "node-v*-linux-x64"
+        rm -rf "node-v*-linux-x64.tar.xz"
+        rm -f "node"
+        rm -f "npm"
         wget "https://nodejs.org/dist/$NODEVER/node-$NODEVER-linux-x64.tar.xz" -O "node-$NODEVER-linux-x64.tar.xz"
         tar xf "node-$NODEVER-linux-x64.tar.xz"
         rm "node-$NODEVER-linux-x64.tar.xz"
