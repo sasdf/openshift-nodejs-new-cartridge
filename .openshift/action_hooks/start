@@ -1,0 +1,35 @@
+#!/bin/bash
+# The logic to start up your application should be put in this
+# script. The application will work only if it binds to
+# $OPENSHIFT_DIY_IP:8080
+export HOME=$OPENSHIFT_DATA_DIR/home/
+export BINPATH=$OPENSHIFT_DATA_DIR/bin/
+export PATH=$BINPATH:$PATH
+export IP=$OPENSHIFT_DIY_IP
+export PORT=$OPENSHIFT_DIY_PORT
+
+
+if [ ! -d "$HOME" ]; then
+    mkdir -p "$HOME"
+fi
+
+if [ ! -d "$BINPATH" ]; then
+    mkdir -p "$BINPATH"
+fi
+
+if [ -f "$OPENSHIFT_REPO_DIR/NODE_VERSION" ]; then
+    NODEVER=$(cat $OPENSHIFT_REPO_DIR/NODE_VERSION)
+    if [ "$(node -v)" != "$NODEVER" ]; then
+        cd "$BINPATH"
+        rm -rf "node-*-linux-x64*"
+        wget "https://nodejs.org/dist/$NODEVER/node-$NODEVER-linux-x64.tar.xz" -O "node-$NODEVER-linux-x64.tar.xz"
+        tar xf "node-$NODEVER-linux-x64.tar.xz"
+        rm "node-$NODEVER-linux-x64.tar.xz"
+        ln -s "node-$NODEVER-linux-x64/bin/node" "node"
+        ln -s "node-$NODEVER-linux-x64/bin/npm" "npm"
+    fi
+fi
+
+cd "$OPENSHIFT_REPO_DIR/"
+npm install
+nohup npm start |& /usr/bin/logshifter -tag diy &

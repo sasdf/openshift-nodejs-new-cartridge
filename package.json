@@ -1,0 +1,21 @@
+{
+  "name": "openshift-nodejs-new-cartridge",
+  "version": "1.0.0",
+  "description": "Install any version of nodejs using diy cartridge automatically",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sasdf/openshift-nodejs-new-cartridge.git"
+  },
+  "keywords": [
+    "diy"
+  ],
+  "author": "asdf79852",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
